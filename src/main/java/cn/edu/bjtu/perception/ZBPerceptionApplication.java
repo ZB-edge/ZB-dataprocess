@@ -1,4 +1,4 @@
-package cn.edu.bjtu.dataprocess;
+package cn.edu.bjtu.perception;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,10 +7,10 @@ import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootApplication
-public class ZBDataProcessApplication {
+public class ZBPerceptionApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ZBDataProcessApplication.class, args);
+        SpringApplication.run(ZBPerceptionApplication.class, args);
     }
 
     @Bean

@@ -1,4 +1,4 @@
-package cn.edu.bjtu.dataprocess.entity;
+package cn.edu.bjtu.perception.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 

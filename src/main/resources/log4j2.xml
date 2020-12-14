@@ -8,8 +8,8 @@
     <!--集中配置属性进行管理 使用时通过：${name}-->
     <properties>
         <property name="LOG_PATTERN">%d{HH:mm:ss.SSS} [%t] [%-5level] %c{36}:%L --- %m%n</property>
-        <property name="LOG_HOME">/opt/ZB-logs/ZB-dataprocess</property>
-        <property name="FILE_NAME">ZB-dataprocess</property>
+        <property name="LOG_HOME">/opt/ZB-logs/ZB-perception</property>
+        <property name="FILE_NAME">ZB-perception</property>
     </properties>
     <!--日志处理-->
     <Appenders>

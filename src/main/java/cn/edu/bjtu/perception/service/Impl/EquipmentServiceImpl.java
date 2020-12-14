@@ -1,7 +1,7 @@
-package cn.edu.bjtu.dataprocess.service.Impl;
+package cn.edu.bjtu.perception.service.Impl;
 
-import cn.edu.bjtu.dataprocess.entity.Equipment;
-import cn.edu.bjtu.dataprocess.service.EquipmentService;
+import cn.edu.bjtu.perception.entity.Equipment;
+import cn.edu.bjtu.perception.service.EquipmentService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;

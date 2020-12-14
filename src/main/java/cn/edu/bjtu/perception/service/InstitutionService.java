@@ -1,6 +1,6 @@
-package cn.edu.bjtu.dataprocess.service;
+package cn.edu.bjtu.perception.service;
 
-import cn.edu.bjtu.dataprocess.entity.Institution;
+import cn.edu.bjtu.perception.entity.Institution;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

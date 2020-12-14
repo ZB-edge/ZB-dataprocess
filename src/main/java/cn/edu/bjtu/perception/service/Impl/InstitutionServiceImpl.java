@@ -1,7 +1,7 @@
-package cn.edu.bjtu.dataprocess.service.Impl;
+package cn.edu.bjtu.perception.service.Impl;
 
-import cn.edu.bjtu.dataprocess.entity.Institution;
-import cn.edu.bjtu.dataprocess.service.InstitutionService;
+import cn.edu.bjtu.perception.entity.Institution;
+import cn.edu.bjtu.perception.service.InstitutionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Service;

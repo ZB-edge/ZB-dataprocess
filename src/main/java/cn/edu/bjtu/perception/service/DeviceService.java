@@ -1,6 +1,6 @@
-package cn.edu.bjtu.dataprocess.service;
+package cn.edu.bjtu.perception.service;
 
-import cn.edu.bjtu.dataprocess.entity.Device;
+import cn.edu.bjtu.perception.entity.Device;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 
