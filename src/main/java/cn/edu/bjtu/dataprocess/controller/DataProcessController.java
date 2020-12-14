@@ -1,13 +1,30 @@
 package cn.edu.bjtu.dataprocess.controller;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import cn.edu.bjtu.dataprocess.entity.Institution;
+import cn.edu.bjtu.dataprocess.service.InstitutionService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RequestMapping("/api/datas")
 @RestController
 public class DataProcessController {
+
+    @Autowired
+    InstitutionService institutionService;
+
+    @CrossOrigin
+    @PostMapping("/test")
+    public void save(String name, String category, String info){
+        institutionService.save(name,category,info);
+    }
+
+    @CrossOrigin
+    @GetMapping("/insList")
+    public List<Institution> insList(){
+        return institutionService.findAll();
+    }
 
     @CrossOrigin
     @GetMapping("/ping")
