@@ -1,5 +1,6 @@
 package cn.edu.bjtu.perception.service.Impl;
 
+import cn.edu.bjtu.perception.entity.Device;
 import cn.edu.bjtu.perception.entity.Equipment;
 import cn.edu.bjtu.perception.service.EquipmentService;
 import com.alibaba.fastjson.JSONObject;
@@ -21,12 +22,13 @@ public class EquipmentServiceImpl implements EquipmentService {
     public void save(Equipment equipment) {
         Equipment e = new Equipment();
         e.setEntry(equipment.getEntry());
-        e.setInstituion(equipment.getInstituion());
+        e.setInstitution(equipment.getInstitution());
         e.setManufacture(equipment.getManufacture());
         e.setName(equipment.getName());
         e.setUnit(equipment.getUnit());
         e.setNum(equipment.getNum());
-        mongoTemplate.save(Equipment.class,"equipment");
+        e.setCategory(equipment.getCategory());
+        mongoTemplate.save(e,"equipment");
     }
 
     @Override
@@ -41,26 +43,24 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
+    public int findCategory() {
+        int i = 0;
+        JSONObject js = new JSONObject();
+        List<Equipment> equipments = mongoTemplate.findAll(Equipment.class,"equipment");
+        for (Equipment equipment : equipments){
+            js.put(equipment.getName(),0);
+        }
+        i = js.size();
+        return i;
+    }
+
+    @Override
     public JSONObject num(String institution) {
         List<Equipment> equipments = findByInstitution(institution);
-        int i = 0;
-        int j = 0;
-        int k = 0;
         JSONObject js = new JSONObject();
-        for (Equipment equipment : equipments) {
-            if (equipment.getName().equals("弹药")) {
-                i = equipment.getNum();
-            }
-            if (equipment.getName().equals("钢盔")) {
-                j = equipment.getNum();
-            }
-            if (equipment.getName().equals("燃油")) {
-                k = equipment.getNum();
-            }
+        for (Equipment equipment : equipments){
+            js.put(equipment.getName(),equipment.getNum()+equipment.getUnit());
         }
-        js.put("弹药",i);
-        js.put("钢盔",j);
-        js.put("燃油",k);
         return js;
     }
 }

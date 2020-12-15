@@ -1,24 +1,29 @@
 package cn.edu.bjtu.perception.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
 @Document(collection = "device")
 public class Device {
-    String instituion;
+    String institution;
     String name;
-    String unit;
-    int num;
+    String category;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     Date entry;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     Date manufacture;
 
-    public String getInstituion() {
-        return instituion;
+    public String getInstitution() {
+        return institution;
     }
 
-    public void setInstituion(String instituion) {
-        this.instituion = instituion;
+    public void setInstitution(String institution) {
+        this.institution = institution;
     }
 
     public String getName() {
@@ -29,20 +34,12 @@ public class Device {
         this.name = name;
     }
 
-    public String getUnit() {
-        return unit;
+    public String getCategory() {
+        return category;
     }
 
-    public void setUnit(String unit) {
-        this.unit = unit;
-    }
-
-    public int getNum() {
-        return num;
-    }
-
-    public void setNum(int num) {
-        this.num = num;
+    public void setCategory(String category) {
+        this.category = category;
     }
 
     public Date getEntry() {

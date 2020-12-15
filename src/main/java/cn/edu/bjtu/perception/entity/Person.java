@@ -1,6 +1,8 @@
 package cn.edu.bjtu.perception.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 
@@ -9,12 +11,17 @@ public class Person {
     String name;
     String institution;
     String sex;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     Date birth;
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     Date enlistment;
     int party;
     String rank;
     int major;
     String degree;
+    int logistic;
 
     public String getName() {
         return name;
@@ -86,5 +93,13 @@ public class Person {
 
     public void setDegree(String degree) {
         this.degree = degree;
+    }
+
+    public int getLogistic() {
+        return logistic;
+    }
+
+    public void setLogistic(int logistic) {
+        this.logistic = logistic;
     }
 }

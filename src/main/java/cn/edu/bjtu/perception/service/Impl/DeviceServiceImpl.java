@@ -21,12 +21,11 @@ public class DeviceServiceImpl implements DeviceService {
     public void save(Device device) {
         Device d = new Device();
         d.setEntry(device.getEntry());
-        d.setInstituion(device.getInstituion());
+        d.setInstitution(device.getInstitution());
         d.setManufacture(device.getManufacture());
         d.setName(device.getName());
-        d.setNum(device.getNum());
-        d.setUnit(device.getUnit());
-        mongoTemplate.save(Device.class,"device");
+        d.setCategory(device.getCategory());
+        mongoTemplate.save(d,"device");
     }
 
     @Override
@@ -41,26 +40,43 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    public int findCategory() {
+        int i = 0;
+        JSONObject js = new JSONObject();
+        List<Device> devices = mongoTemplate.findAll(Device.class,"device");
+        for (Device device : devices){
+            js.put(device.getCategory(),0);
+        }
+        i = js.size();
+        return i;
+    }
+
+    @Override
     public JSONObject num(String institution) {
         List<Device> devices = findByInstitution(institution);
         int i = 0;
         int j = 0;
         int k = 0;
+        int m = 0;
         JSONObject js = new JSONObject();
         for (Device device : devices) {
-            if (device.getName().equals("坦克")) {
-                i = device.getNum();
+            if (device.getCategory().equals("08式步战车")) {
+                i++;
             }
-            if (device.getName().equals("手枪")) {
-                j = device.getNum();
+            if (device.getCategory().equals("08式突击车")) {
+                j++;
             }
-            if (device.getName().equals("装甲车")) {
-                k = device.getNum();
+            if (device.getCategory().equals("08式输送车")) {
+                k++;
+            }
+            if (device.getCategory().equals("08式指挥车")) {
+                m++;
             }
         }
-        js.put("坦克",i);
-        js.put("手枪",j);
-        js.put("装甲车",k);
+        js.put("08式步战车",i);
+        js.put("08式突击车",j);
+        js.put("08式输送车",k);
+        js.put("08式指挥车",m);
         return js;
     }
 }
