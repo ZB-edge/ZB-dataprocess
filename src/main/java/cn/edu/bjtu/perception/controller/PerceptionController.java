@@ -1,9 +1,7 @@
 package cn.edu.bjtu.perception.controller;
 
-import cn.edu.bjtu.perception.entity.Device;
 import cn.edu.bjtu.perception.entity.Equipment;
 import cn.edu.bjtu.perception.entity.Institution;
-import cn.edu.bjtu.perception.entity.Person;
 import cn.edu.bjtu.perception.service.DeviceService;
 import cn.edu.bjtu.perception.service.EquipmentService;
 import cn.edu.bjtu.perception.service.InstitutionService;

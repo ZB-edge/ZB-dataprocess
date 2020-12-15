@@ -59,7 +59,7 @@ public class EquipmentServiceImpl implements EquipmentService {
         List<Equipment> equipments = findByInstitution(institution);
         JSONObject js = new JSONObject();
         for (Equipment equipment : equipments){
-            js.put(equipment.getName(),equipment.getNum()+equipment.getUnit());
+            js.put(equipment.getName(),equipment.getNum());
         }
         return js;
     }

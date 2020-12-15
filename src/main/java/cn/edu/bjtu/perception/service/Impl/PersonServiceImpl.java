@@ -9,7 +9,6 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.text.NumberFormat;
 import java.util.List;
 
 @Service
@@ -68,12 +67,10 @@ public class PersonServiceImpl implements PersonService {
                 m++;
             }
         }
-        NumberFormat numberFormat = NumberFormat.getInstance();
-        numberFormat.setMaximumFractionDigits(2);
-        js.put("党员", numberFormat.format((float) i / (float) num * 100) + "%");
-        js.put("专业人员",numberFormat.format((float) j / (float) num * 100) + "%");
-        js.put("校官及以上",numberFormat.format((float) k / (float) num * 100) + "%");
-        js.put("本科及以上",numberFormat.format((float) m / (float) num * 100) + "%");
+        js.put("党员", Math.round((float) i / (float) num * 100));
+        js.put("专业人员",Math.round((float) j / (float) num * 100));
+        js.put("校官及以上",Math.round((float) k / (float) num * 100));
+        js.put("本科及以上",Math.round((float) m / (float) num * 100));
         return js;
     }
 }
