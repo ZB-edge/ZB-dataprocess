@@ -1,10 +1,10 @@
 package cn.edu.bjtu.perception.controller;
 
-import cn.edu.bjtu.perception.entity.Equipment;
 import cn.edu.bjtu.perception.entity.Institution;
 import cn.edu.bjtu.perception.entity.LogisticMap;
 import cn.edu.bjtu.perception.entity.Password;
 import cn.edu.bjtu.perception.service.*;
+import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -77,15 +77,30 @@ public class PerceptionController {
 
     @CrossOrigin
     @GetMapping("/map/{institution}")
-    public JSONObject map(@PathVariable String institution){
+    public JSONArray map(@PathVariable String institution){
         LogisticMap logisticMap = mapService.findByInstitution(institution);
-        JSONObject js = new JSONObject();
-        js.put("装备保障大队",logisticMap.getHeadquarters());
-        js.put("修理连",logisticMap.getGuarantee());
-        js.put("运输连",logisticMap.getTransport());
-        js.put("供应保障队",logisticMap.getSupply());
-        return js;
-
+        JSONArray result = new JSONArray();
+        JSONObject js1 = new JSONObject();
+        JSONObject js2 = new JSONObject();
+        JSONObject js3 = new JSONObject();
+        JSONObject js4 = new JSONObject();
+        js1.put("name","装备保障大队");
+        js1.put("lng",logisticMap.getHeadquarters()[0]);
+        js1.put("lat",logisticMap.getHeadquarters()[1]);
+        result.add(js1);
+        js2.put("name","修理连");
+        js2.put("lng",logisticMap.getGuarantee()[0]);
+        js2.put("lat",logisticMap.getGuarantee()[1]);
+        result.add(js2);
+        js3.put("name","运输连");
+        js3.put("lng",logisticMap.getTransport()[0]);
+        js3.put("lat",logisticMap.getTransport()[1]);
+        result.add(js3);
+        js4.put("name","供应保障队");
+        js4.put("lng",logisticMap.getSupply()[0]);
+        js4.put("lat",logisticMap.getSupply()[1]);
+        result.add(js4);
+        return result;
     }
 
     @CrossOrigin
@@ -93,7 +108,6 @@ public class PerceptionController {
     public JSONObject adminLogin(String username,String password){
         Password data = passwordService.find(username);
         JSONObject js = new JSONObject();
-
         if (data == null){
             js.put("status",401);
             js.put("message","请输入用户名和密码！");
@@ -134,16 +148,34 @@ public class PerceptionController {
         }else {
             boolean flag = passwordService.login(username,password);
             if(flag){
-                js.put("status",200);
-                js.put("message","登录成功！");
-                return js;
+                switch (data.getUsername()){
+                    case "user1":
+                        js.put("status",200);
+                        js.put("user","装甲兵1旅");
+                        js.put("message","登录成功！");
+                        return js;
+                    case "user2":
+                        js.put("status",200);
+                        js.put("user","装甲兵2旅");
+                        js.put("message","登录成功！");
+                        return js;
+                    case "user3":
+                        js.put("status",200);
+                        js.put("user","装甲兵3旅");
+                        js.put("message","登录成功！");
+                        return js;
+                    default:
+                        js.put("status",200);
+                        js.put("user","装甲兵4旅");
+                        js.put("message","登录成功！");
+                        return js;
+                }
             }else {
                 js.put("status",401);
                 js.put("message","密码有误，登录失败！");
                 return js;
             }
         }
-
     }
 
     @CrossOrigin
