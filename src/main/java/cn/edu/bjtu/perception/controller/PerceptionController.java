@@ -2,10 +2,8 @@ package cn.edu.bjtu.perception.controller;
 
 import cn.edu.bjtu.perception.entity.Equipment;
 import cn.edu.bjtu.perception.entity.Institution;
-import cn.edu.bjtu.perception.service.DeviceService;
-import cn.edu.bjtu.perception.service.EquipmentService;
-import cn.edu.bjtu.perception.service.InstitutionService;
-import cn.edu.bjtu.perception.service.PersonService;
+import cn.edu.bjtu.perception.entity.Password;
+import cn.edu.bjtu.perception.service.*;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +22,8 @@ public class PerceptionController {
     DeviceService deviceService;
     @Autowired
     EquipmentService equipmentService;
+    @Autowired
+    PasswordService passwordService;
 
     @CrossOrigin
     @PostMapping("/test")
@@ -64,6 +64,64 @@ public class PerceptionController {
     @GetMapping("/equipment/{institution}")
     public JSONObject equipmentNum(@PathVariable String institution){
         return equipmentService.num(institution);
+    }
+
+    @CrossOrigin
+    @PostMapping("/adminLogin")
+    public JSONObject adminLogin(String username,String password){
+        Password data = passwordService.find(username);
+        JSONObject js = new JSONObject();
+
+        if (data == null){
+            js.put("status",401);
+            js.put("message","请输入用户名和密码！");
+            return js;
+        }else if(!data.getUsername().equals("admin")){
+            js.put("status",401);
+            js.put("message","此用户不存在！");
+            return js;
+        }else {
+            boolean flag = passwordService.login(username,password);
+            if(flag){
+                js.put("status",200);
+                js.put("message","登录成功！");
+                return js;
+            }else {
+                js.put("status",401);
+                js.put("message","密码有误，登录失败！");
+                return js;
+            }
+        }
+    }
+
+    @CrossOrigin
+    @PostMapping("/edgeLogin")
+    public JSONObject edgeLogin(String username,String password){
+
+        Password data = passwordService.find(username);
+        JSONObject js = new JSONObject();
+
+        if (data == null){
+            js.put("status",401);
+            js.put("message","请输入用户名和密码！");
+            return js;
+        }else if(!data.getUsername().equals("user1")||!data.getUsername().equals("user2")||!data.getUsername().equals("user3")||!data.getUsername().equals("user4")){
+            js.put("status",401);
+            js.put("message","此用户不存在！");
+            return js;
+        }else {
+            boolean flag = passwordService.login(username,password);
+            if(flag){
+                js.put("status",200);
+                js.put("message","登录成功！");
+                return js;
+            }else {
+                js.put("status",401);
+                js.put("message","密码有误，登录失败！");
+                return js;
+            }
+        }
+
     }
 
     @CrossOrigin

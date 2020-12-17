@@ -1,6 +1,5 @@
 package cn.edu.bjtu.perception.service.Impl;
 
-import cn.edu.bjtu.perception.entity.Device;
 import cn.edu.bjtu.perception.entity.Equipment;
 import cn.edu.bjtu.perception.service.EquipmentService;
 import com.alibaba.fastjson.JSONObject;
