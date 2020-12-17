@@ -2,6 +2,7 @@ package cn.edu.bjtu.perception.controller;
 
 import cn.edu.bjtu.perception.entity.Equipment;
 import cn.edu.bjtu.perception.entity.Institution;
+import cn.edu.bjtu.perception.entity.LogisticMap;
 import cn.edu.bjtu.perception.entity.Password;
 import cn.edu.bjtu.perception.service.*;
 import com.alibaba.fastjson.JSONObject;
@@ -24,11 +25,13 @@ public class PerceptionController {
     EquipmentService equipmentService;
     @Autowired
     PasswordService passwordService;
+    @Autowired
+    MapService mapService;
 
     @CrossOrigin
     @PostMapping("/test")
-    public void save(@RequestBody Equipment equipment){
-        equipmentService.save(equipment);
+    public void save(@RequestBody LogisticMap logisticMap){
+        mapService.save(logisticMap);
     }
 
     @CrossOrigin
@@ -64,6 +67,25 @@ public class PerceptionController {
     @GetMapping("/equipment/{institution}")
     public JSONObject equipmentNum(@PathVariable String institution){
         return equipmentService.num(institution);
+    }
+
+    @CrossOrigin
+    @GetMapping("/material/{institution}/{category}")
+    public JSONObject materialNum(@PathVariable String institution,@PathVariable String category){
+        return equipmentService.number(institution,category);
+    }
+
+    @CrossOrigin
+    @GetMapping("/map/{institution}")
+    public JSONObject map(@PathVariable String institution){
+        LogisticMap logisticMap = mapService.findByInstitution(institution);
+        JSONObject js = new JSONObject();
+        js.put("装备保障大队",logisticMap.getHeadquarters());
+        js.put("修理连",logisticMap.getGuarantee());
+        js.put("运输连",logisticMap.getTransport());
+        js.put("供应保障队",logisticMap.getSupply());
+        return js;
+
     }
 
     @CrossOrigin
@@ -105,7 +127,7 @@ public class PerceptionController {
             js.put("status",401);
             js.put("message","请输入用户名和密码！");
             return js;
-        }else if(!data.getUsername().equals("user1")||!data.getUsername().equals("user2")||!data.getUsername().equals("user3")||!data.getUsername().equals("user4")){
+        }else if(!data.getUsername().equals("user1")&&!data.getUsername().equals("user2")&&!data.getUsername().equals("user3")&&!data.getUsername().equals("user4")){
             js.put("status",401);
             js.put("message","此用户不存在！");
             return js;

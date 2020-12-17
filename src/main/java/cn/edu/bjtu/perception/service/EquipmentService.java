@@ -13,4 +13,5 @@ public interface EquipmentService {
     List<Equipment> findByInstitution(String institution);
     int findCategory();
     JSONObject num(String institution);
+    JSONObject number(String institution,String category);
 }
