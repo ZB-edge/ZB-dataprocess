@@ -5,7 +5,10 @@ import cn.edu.bjtu.perception.service.*;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
 
@@ -27,6 +30,10 @@ public class PerceptionController {
     MapService mapService;
     @Autowired
     VehicleService vehicleService;
+    @Autowired
+    CloudService cloudService;
+    @Autowired
+    RestTemplate restTemplate;
 
     public static JSONObject jinstitution = new JSONObject();
     public static JSONObject jcategory = new JSONObject();
@@ -255,6 +262,51 @@ public class PerceptionController {
         jfirstOil.put("车首油箱油量",firstOil);
         return "收到！";
     }
+
+    @CrossOrigin
+    @PostMapping("/exportSimulate/{institution}/{category}/{name}")
+    public String exportSimulate(@PathVariable String institution,@PathVariable String category,@PathVariable String name,
+                           @RequestParam(value = "speed") int speed,@RequestParam(value = "mileage") int mileage,
+                           @RequestParam(value = "rotation") int rotation,@RequestParam(value = "midOil") int midOil,
+                           @RequestParam(value = "temperature") int temperature,@RequestParam(value = "oilTemperature") int oilTemperature,
+                           @RequestParam(value = "firstOil") int firstOil){
+        Vehicle v = new Vehicle();
+        v.setInstitution(institution);
+        v.setCategory(category);
+        v.setName(name);
+        v.setSpeed(speed);
+        v.setMileage(mileage);
+        v.setRotation(rotation);
+        v.setMidOil(midOil);
+        v.setTemperature(temperature);
+        v.setOilTemperature(oilTemperature);
+        v.setFirstOil(firstOil);
+        vehicleService.save(v);
+        jinstitution.put("单位",institution);
+        jcategory.put("装备类型",category);
+        jname.put("装备名称",name);
+        jspeed.put("车速",speed);
+        jmileage.put("里程统计",mileage);
+        jrotation.put("转速",rotation);
+        jmidOil.put("中置油箱油量",midOil);
+        jtemperature.put("发动机水温",temperature);
+        joilTemperature.put("变速箱油温",oilTemperature);
+        jfirstOil.put("车首油箱油量",firstOil);
+        String ip = cloudService.findIp("cloud");
+        String url = "http://" + ip + ":8095/api/perception/simulate/" + institution + "/" + category + "/" + name;
+        MultiValueMap<String, Integer> js = new LinkedMultiValueMap<>();
+        js.add("speed",speed);
+        js.add("mileage",mileage);
+        js.add("rotation",rotation);
+        js.add("midOil",midOil);
+        js.add("temperature",temperature);
+        js.add("oilTemperature",oilTemperature);
+        js.add("firstOil",firstOil);
+        String result = restTemplate.postForObject(url,js,String.class);
+        System.out.println(result);
+        return "收到！";
+    }
+
 
     @CrossOrigin
     @GetMapping("/simulate/{institution}/{category}/{name}")
