@@ -311,7 +311,9 @@ public class PerceptionController {
     @CrossOrigin
     @GetMapping("/simulate/{institution}/{category}/{name}")
     public JSONArray simulateShow(@PathVariable String institution,@PathVariable String category,@PathVariable String name){
-        if (jinstitution.get("单位").equals(institution)&&jcategory.get("装备类型").equals(category)&&jname.get("装备名称").equals(name)){
+        if(jinstitution.equals(new JSONObject())){
+            return new JSONArray();
+        }else if(jinstitution.get("单位").equals(institution)&&jcategory.get("装备类型").equals(category)&&jname.get("装备名称").equals(name)){
             JSONArray result = new JSONArray();
             result.add(jspeed);
             result.add(jmileage);
@@ -324,7 +326,6 @@ public class PerceptionController {
         }else {
             return new JSONArray();
         }
-
     }
 
     @CrossOrigin
