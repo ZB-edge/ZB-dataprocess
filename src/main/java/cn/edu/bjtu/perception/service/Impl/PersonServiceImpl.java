@@ -67,10 +67,10 @@ public class PersonServiceImpl implements PersonService {
                 m++;
             }
         }
-        js.put("党员", Math.round((float) i / (float) num * 100));
-        js.put("专业人员",Math.round((float) j / (float) num * 100));
-        js.put("校官及以上",Math.round((float) k / (float) num * 100));
-        js.put("本科及以上",Math.round((float) m / (float) num * 100));
+        js.put("党员比例", Math.round((float) i / (float) num * 100));
+        js.put("专员比例",Math.round((float) j / (float) num * 100));
+        js.put("校官校官",Math.round((float) k / (float) num * 100));
+        js.put("本科比例",Math.round((float) m / (float) num * 100));
         return js;
     }
 }

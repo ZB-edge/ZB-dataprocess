@@ -54,6 +54,18 @@ public class EquipmentServiceImpl implements EquipmentService {
     }
 
     @Override
+    public int findCategory(String institution) {
+        int i = 0;
+        JSONObject js = new JSONObject();
+        List<Equipment> equipments = findByInstitution(institution);
+        for (Equipment equipment : equipments){
+            js.put(equipment.getName(),0);
+        }
+        i = js.size();
+        return i;
+    }
+
+    @Override
     public JSONObject num(String institution) {
         List<Equipment> equipments = findByInstitution(institution);
         JSONObject js = new JSONObject();

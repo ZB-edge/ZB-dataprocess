@@ -12,5 +12,6 @@ public interface DeviceService {
     int sum();
     List<Device> findByInstitution(String institution);
     int findCategory();
+    int findCategory(String institution);
     JSONObject num(String institution);
 }

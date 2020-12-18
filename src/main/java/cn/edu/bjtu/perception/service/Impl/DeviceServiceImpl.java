@@ -52,6 +52,18 @@ public class DeviceServiceImpl implements DeviceService {
     }
 
     @Override
+    public int findCategory(String institution) {
+        int i = 0;
+        JSONObject js = new JSONObject();
+        List<Device> devices = findByInstitution(institution);
+        for (Device device : devices){
+            js.put(device.getCategory(),0);
+        }
+        i = js.size();
+        return i;
+    }
+
+    @Override
     public JSONObject num(String institution) {
         List<Device> devices = findByInstitution(institution);
         int i = 0;

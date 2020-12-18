@@ -12,6 +12,7 @@ public interface EquipmentService {
     int sum();
     List<Equipment> findByInstitution(String institution);
     int findCategory();
+    int findCategory(String institution);
     JSONObject num(String institution);
     JSONObject number(String institution,String category);
 }

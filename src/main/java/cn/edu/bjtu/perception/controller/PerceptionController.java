@@ -1,8 +1,6 @@
 package cn.edu.bjtu.perception.controller;
 
-import cn.edu.bjtu.perception.entity.Institution;
-import cn.edu.bjtu.perception.entity.LogisticMap;
-import cn.edu.bjtu.perception.entity.Password;
+import cn.edu.bjtu.perception.entity.*;
 import cn.edu.bjtu.perception.service.*;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
@@ -27,6 +25,19 @@ public class PerceptionController {
     PasswordService passwordService;
     @Autowired
     MapService mapService;
+    @Autowired
+    VehicleService vehicleService;
+
+    public static JSONObject jinstitution = new JSONObject();
+    public static JSONObject jcategory = new JSONObject();
+    public static JSONObject jname = new JSONObject();
+    public static JSONObject jspeed = new JSONObject();
+    public static JSONObject jmileage = new JSONObject();
+    public static JSONObject jrotation = new JSONObject();
+    public static JSONObject jmidOil = new JSONObject();
+    public static JSONObject jtemperature = new JSONObject();
+    public static JSONObject joilTemperature = new JSONObject();
+    public static JSONObject jfirstOil = new JSONObject();
 
     @CrossOrigin
     @PostMapping("/test")
@@ -44,6 +55,17 @@ public class PerceptionController {
         n[3]=equipmentService.findCategory();
         return n;
     }
+
+    @CrossOrigin
+    @GetMapping("/{institution}/edgeNum")
+    public int[] edgeNum(@PathVariable String institution){
+        int[] n = new int[3];
+        n[0]=personService.findByInstitution(institution).size();
+        n[1]=deviceService.findCategory(institution);
+        n[2]=equipmentService.findCategory(institution);
+        return n;
+    }
+
 
     @CrossOrigin
     @GetMapping("/insList")
@@ -176,6 +198,81 @@ public class PerceptionController {
                 return js;
             }
         }
+    }
+
+    @CrossOrigin
+    @GetMapping("/list1/{institution}")
+    public JSONObject List1(@PathVariable String institution){
+        List<Device> devices = deviceService.findByInstitution(institution);
+        JSONObject js = new JSONObject();
+        for (Device device : devices){
+            js.put(device.getCategory(),0);
+        }
+        return js;
+    }
+
+    @CrossOrigin
+    @GetMapping("/list2/{institution}/{category}")
+    public JSONObject List2(@PathVariable String institution,@PathVariable String category){
+        List<Device> devices = deviceService.findByInstitution(institution);
+        JSONObject js = new JSONObject();
+        for (Device device : devices){
+            if (device.getCategory().equals(category)){
+                js.put(device.getName(),0);
+            }
+        }
+        return js;
+    }
+
+    @CrossOrigin
+    @PostMapping("/simulate/{institution}/{category}/{name}")
+    public String simulate(@PathVariable String institution,@PathVariable String category,@PathVariable String name,
+                              @RequestParam(value = "speed") int speed,@RequestParam(value = "mileage") int mileage,
+                              @RequestParam(value = "rotation") int rotation,@RequestParam(value = "midOil") int midOil,
+                              @RequestParam(value = "temperature") int temperature,@RequestParam(value = "oilTemperature") int oilTemperature,
+                              @RequestParam(value = "firstOil") int firstOil){
+        Vehicle v = new Vehicle();
+        v.setInstitution(institution);
+        v.setCategory(category);
+        v.setName(name);
+        v.setSpeed(speed);
+        v.setMileage(mileage);
+        v.setRotation(rotation);
+        v.setMidOil(midOil);
+        v.setTemperature(temperature);
+        v.setOilTemperature(oilTemperature);
+        v.setFirstOil(firstOil);
+        vehicleService.save(v);
+        jinstitution.put("单位",institution);
+        jcategory.put("装备类型",category);
+        jname.put("装备名称",name);
+        jspeed.put("车速",speed);
+        jmileage.put("里程统计",mileage);
+        jrotation.put("转速",rotation);
+        jmidOil.put("中置油箱油量",midOil);
+        jtemperature.put("发动机水温",temperature);
+        joilTemperature.put("变速箱油温",oilTemperature);
+        jfirstOil.put("车首油箱油量",firstOil);
+        return "收到！";
+    }
+
+    @CrossOrigin
+    @GetMapping("/simulate/{institution}/{category}/{name}")
+    public JSONArray simulateShow(@PathVariable String institution,@PathVariable String category,@PathVariable String name){
+        if (jinstitution.get("单位").equals(institution)&&jcategory.get("装备类型").equals(category)&&jname.get("装备名称").equals(name)){
+            JSONArray result = new JSONArray();
+            result.add(jspeed);
+            result.add(jmileage);
+            result.add(jrotation);
+            result.add(jmidOil);
+            result.add(jtemperature);
+            result.add(joilTemperature);
+            result.add(jfirstOil);
+            return result;
+        }else {
+            return new JSONArray();
+        }
+
     }
 
     @CrossOrigin
