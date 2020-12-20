@@ -69,7 +69,7 @@ public class PersonServiceImpl implements PersonService {
         }
         js.put("党员比例", Math.round((float) i / (float) num * 100));
         js.put("专员比例",Math.round((float) j / (float) num * 100));
-        js.put("校官校官",Math.round((float) k / (float) num * 100));
+        js.put("校官比例",Math.round((float) k / (float) num * 100));
         js.put("本科比例",Math.round((float) m / (float) num * 100));
         return js;
     }
